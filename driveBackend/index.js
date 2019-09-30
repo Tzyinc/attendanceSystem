@@ -153,11 +153,11 @@ function getDetails(id, member) {
     };
 }
 
-app.get('/', cors(corsOptions), function (req, res) {
+app.get('/', cors(), function (req, res) {
     res.send({ submit: '/submitUserAttendance?id=&member=', get: '/getUserData?id=&member='});
 });
 
-app.get('/submitUserAttendance', cors(corsOptions), function (req, res) {
+app.get('/submitUserAttendance', cors(), function (req, res) {
     const query = req.query;
     if (query) {
         const id = query.id;
@@ -172,7 +172,7 @@ app.get('/submitUserAttendance', cors(corsOptions), function (req, res) {
     }
 });
 
-app.get('/allUserAttendance', cors(corsOptions), function (req, res) {
+app.get('/allUserAttendance', cors(), function (req, res) {
     let total = 0;
     let attTaken = 0;
     let memberIndex = 0;
@@ -192,7 +192,7 @@ app.get('/allUserAttendance', cors(corsOptions), function (req, res) {
     res.send({ total, attTaken, attCache})
 });
 
-app.get('/getUserData', cors(corsOptions), function(req, res) {
+app.get('/getUserData', cors(), function(req, res) {
     const query = req.query;
     const id = query.id;
     const member = query.member;
