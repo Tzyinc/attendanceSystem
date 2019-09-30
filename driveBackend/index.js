@@ -1,8 +1,15 @@
 require('dotenv').config()
+
+var cors = require('cors')
 var express = require('express');
 var app = express();
 const path = require('path');
 const { google } = require('googleapis');
+
+var corsOptions = {
+    origin: 'https://regist.imthebestcoder.ml/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 const TOKEN_PATH = path.join(__dirname, 'token.json');
 const credentials = {
@@ -146,11 +153,11 @@ function getDetails(id, member) {
     };
 }
 
-app.get('/', function (req, res) {
+app.get('/', cors(corsOptions), function (req, res) {
     res.send({ submit: '/submitUserAttendance?id=&member=', get: '/getUserData?id=&member='});
 });
 
-app.get('/submitUserAttendance', function (req, res) {
+app.get('/submitUserAttendance', cors(corsOptions), function (req, res) {
     const query = req.query;
     if (query) {
         const id = query.id;
@@ -165,7 +172,7 @@ app.get('/submitUserAttendance', function (req, res) {
     }
 });
 
-app.get('/allUserAttendance', function (req, res) {
+app.get('/allUserAttendance', cors(corsOptions), function (req, res) {
     let total = 0;
     let attTaken = 0;
     let memberIndex = 0;
@@ -185,7 +192,7 @@ app.get('/allUserAttendance', function (req, res) {
     res.send({ total, attTaken, attCache})
 });
 
-app.get('/getUserData', function(req, res) {
+app.get('/getUserData', cors(corsOptions), function(req, res) {
     const query = req.query;
     const id = query.id;
     const member = query.member;
