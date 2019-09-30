@@ -18,16 +18,57 @@
                 justify-content: center;
                 align-items: center;
                 background-color: aliceblue;
+                font-size: 20px;
             }
 
+            #applicantInfo {
+                display: none;
+            }
+            #loading {
+                display: none;
+            }
+            .details {
+                font-weight: bold;
+            }
+            button {
+                border-radius: 5px;
+                border: 2px solid #1976D2;
+                background-color: #BBDEFB;
+                color: #1976D2;
+                margin-top: 30px;
+                font-size: 25px;
+                width: 100%;
+            }
+            .fields {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+            }
         </style>
     </head>
 
     <body>
 
         <div class="center">
-            <h1>Some title</h1>
+            <h1>Registration</h1>
             <video id="webcam"></video>
+            <div id="loading">loading...</div>
+            <div id="applicantInfo">
+                <div class="fields" ><span>Category: </span><span class="details" id="cat"></span></div>
+                <div class="fields">
+                    <span>Name: </span>
+                    <span class="details">
+                        <span id="fname"></span>
+                        <span id="lname"></span>
+                    </span>
+                </div>
+                <div class="fields"><span>Group number: </span><span class="details" id="group"></span></div>
+                <div class="fields"><span>Group name: </span><span class="details" id="teamName"></span></div>
+                <div class="fields"><span>Members: </span><span class="details" id="numMembers"></span></div>
+                <div class="fields"><span>Shirt size: </span><span class="details" id="shirtSize"></span></div>
+                <button onClick="confirmRegistration()" id="confirmbutton">Confirm</button>
+            </div>
         </div>
 
         <script type="text/javascript" src="index.js"></script>
