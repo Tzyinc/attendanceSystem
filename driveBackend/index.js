@@ -7,7 +7,7 @@ const path = require('path');
 const { google } = require('googleapis');
 
 var corsOptions = {
-    origin: 'https://regist.imthebestcoder.ml/',
+    origin: 'https://regist.imthebestcoder.ml',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
