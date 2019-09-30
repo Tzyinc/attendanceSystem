@@ -23,7 +23,7 @@ function fetchData(ids) {
     let idInfo = ids.split('-');
     groupId = idInfo[0];
     member = idInfo[1];
-    fetch(`http://cache.imthebestcoder.ml/getUserData?id=${groupId}&member=${member}`)
+    fetch(`https://cache.imthebestcoder.ml/getUserData?id=${groupId}&member=${member}`)
         .then(
             function (response) {
                 if (response.status !== 200) {
@@ -52,7 +52,7 @@ function fetchData(ids) {
 
 function confirmRegistration() {
     console.log(groupId,member);
-    fetch(`http://cache.imthebestcoder.ml/submitUserAttendance?id=${groupId}&member=${member}`)
+    fetch(`https://cache.imthebestcoder.ml/submitUserAttendance?id=${groupId}&member=${member}`)
         .then(
             function (response) {
                 if (response.status !== 200) {
