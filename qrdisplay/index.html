@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:title" content="aFrame Sample">
+    <meta property="og:description" content="2d to 3d maze builder in aframes">
+    <meta property="og:image" content="https://httpserve.tenzhiyang.com/aFrameMazeBuilder/aframemaze.png">
+    <meta property="og:url" content="https://httpserve.tenzhiyang.com/aFrameMazeBuilder">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="text/javascript" src="node_modules/qrcode/build/qrcode.min.js"></script>
+    <script src="index.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: aliceblue;
+        }
+        .qrGroup {
+            position: relative;
+        }
+        #canvas {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% - 58px);
+            z-index: 2;
+        }
+        .bestcoderLogo {
+            height: 400px;
+        }
+        #enterQR {
+            display: none;
+            height: 400px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        input {
+            border: 0;
+            border-bottom: 2px solid #1976D2;
+            width: 100%;
+            font-size: 30px;
+            line-height: 35px;
+            height: 70px;
+            text-align: center;
+            padding: 10px;
+            background: transparent;
+        }
+
+        button {
+            border-radius: 5px;
+            border: 2px solid #1976D2;
+	        background-color: #BBDEFB;
+            color: #1976D2;
+            margin: 30px;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body onload="genQR()">
+    <div class="qrGroup" id="qrGroup">
+        <img class="bestcoderLogo" src="bestcoder2.png" alt="bestcoder logo" />
+        <canvas id="canvas"></canvas>
+    </div>
+    <div id="enterQR">
+        <input type="text" id="groupID" placeholder="Enter Group ID" />
+        <button onClick="enterID()">Submit</button>
+    </div>
+</body>
+
+</html>
