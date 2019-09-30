@@ -39,6 +39,12 @@ function fetchData(ids) {
                     document.getElementById('applicantInfo').style.display = "block";
                     
                     for (let field of FIELDS) {
+                        if (data[field] === "" || !data[field]) {
+
+                            document.getElementById('loading').style.display = 'none';
+                            document.getElementById('applicantInfo').style.display = "none";
+                            alert('user not found')
+                        }
                         document.getElementById(field).innerText = data[field];
                     }
                 });
