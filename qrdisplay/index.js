@@ -25,7 +25,7 @@ function enterID() {
 }
 
 function checkGroupExists(groupid) {
-    fetch(`https://cache.imthebestcoder.ml/teamDoesExist?id=${groupId}`)
+    fetch(`https://cache.imthebestcoder.ml/teamDoesExist?id=${groupid}`)
         .then(
             function (response) {
                 if (response.status !== 200) {
@@ -44,7 +44,8 @@ function checkGroupExists(groupid) {
                             if (error) console.error(error)
                         });
                     } else {
-                        alert('error: ' + data)
+                        document.getElementById('qrGroup').style.display = "none";
+                        document.getElementById('enterQR').style.display = "flex";
                     }
                 });
             }
