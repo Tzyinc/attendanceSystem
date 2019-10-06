@@ -226,17 +226,29 @@ app.get('/allUserAttendance', cors(), function (req, res) {
     let total = 0;
     let attTaken = 0;
     let memberIndex = 0;
-    for (let i = 0; i < ssCache.length; i++) {
-        let row = ssCache[i];
-        if (i === 0) {
-            memberIndex = row.findIndex(item => item === 'No. of team members')
-        } else {
-            total += Number(row[memberIndex])
+    ssCache.foreach((item, index) => {
+        const id = item[0];
+        let teamSize = 0;
+        let seatInfo = [];
+        for (let i = 0; i < MAX_MEMBERS; i++) {
+            if (index === 0) {
+                teamSize = 'Calc. Team Size'
+                seatInfo.push(`Member${i + 1}`)
+                seatInfo.push(`Seat No.`)
+            } else {
+                const fname = getValueGivenRowCol(id, 'First name', i);
+                const lname = getValueGivenRowCol(id, 'Last name', i);
+                const seatNo = getValueGivenRowCol(id, 'Seat No.', i);
+                if (fname && lname) {
+                    total++;
+                    seatInfo.push(`${fname} ${lname}`);
+                    seatInfo.push(`${seatNo}`);
+                }
+            }
         }
-    }
+    });
     for (let i = 0; i < attCache.length; i++) {
         let rowAttItems = attCache[i].filter(item => Number(item) === 1);
-        // console.log(rowAttItems.count);
         attTaken += rowAttItems.length;
     }
     res.send({ total, attTaken, attCache})
