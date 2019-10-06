@@ -245,7 +245,7 @@ app.get('/allUserAttendance', cors(), function (req, res) {
 app.get('/teamDoesExist', cors(), function(req, res){
     const query = req.query;
     const id = query.id;
-    let resultIndex = attCache.findIndex(item => Number(item) === Number(id))
+    let resultIndex = attCache.findIndex(item => Number(item[0]) === Number(id))
     res.send({success: resultIndex !== -1});
 });
 
