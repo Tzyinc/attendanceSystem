@@ -192,6 +192,13 @@ app.get('/allUserAttendance', cors(), function (req, res) {
     res.send({ total, attTaken, attCache})
 });
 
+app.get('/teamDoesExist', cors(), function(req, res){
+    const query = req.query;
+    const id = query.id;
+    let resultIndex = attCache.findIndex(item => Number(item) === Number(id))
+    res.send({success: resultIndex !== -1});
+});
+
 app.get('/getUserData', cors(), function(req, res) {
     const query = req.query;
     const id = query.id;

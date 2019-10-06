@@ -12,11 +12,7 @@ function genQR() {
         return b;
     })(window.location.search.substr(1).split('&'));
     if (qs && qs['id']) {
-        document.getElementById('qrGroup').style.display = "block";
-        document.getElementById('enterQR').style.display = "none";
-        QRCode.toCanvas(document.getElementById('canvas'), qs['id'], function (error) {
-            if (error) console.error(error)
-        });
+        checkGroupExists(qs['id']);
     } else {
         document.getElementById('qrGroup').style.display = "none";
         document.getElementById('enterQR').style.display = "flex";
@@ -26,4 +22,35 @@ function genQR() {
 function enterID() {
     var groupId = document.getElementById('groupID').value;
     window.location.href = '?id=' +groupId
+}
+
+function checkGroupExists(groupid) {
+    fetch(`https://cache.imthebestcoder.ml/teamDoesExist?id=${groupId}`)
+        .then(
+            function (response) {
+                if (response.status !== 200) {
+                    alert('Looks like there was a problem. Status Code: ' +
+                        response.status);
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    console.log(data);
+                    if (data && data.success ) {
+                        document.getElementById('qrGroup').style.display = "block";
+                        document.getElementById('enterQR').style.display = "none";
+                        QRCode.toCanvas(document.getElementById('canvas'), groupid, function (error) {
+                            if (error) console.error(error)
+                        });
+                    } else {
+                        alert('error: ' + data)
+                    }
+                });
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+            alert('Looks like there was a problem' + err);
+        });
 }
