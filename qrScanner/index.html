@@ -44,7 +44,9 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-
+            }
+            .strikeout {
+                text-decoration: line-through;
             }
         </style>
     </head>
@@ -56,19 +58,13 @@
             <video id="webcam"></video>
             <div id="loading">loading...</div>
             <div id="applicantInfo">
-                <div class="fields" ><span>Category: </span><span class="details" id="cat"></span></div>
-                <div class="fields">
-                    <span>Name: </span>
-                    <span class="details">
-                        <span id="fname"></span>
-                        <span id="lname"></span>
-                    </span>
-                </div>
-                <div class="fields"><span>Group number: </span><span class="details" id="group"></span></div>
+                
+                <div class="fields"><span>Submission Id: </span><span class="details" id="group"></span></div>
                 <div class="fields"><span>Group name: </span><span class="details" id="teamName"></span></div>
-                <div class="fields"><span>Members: </span><span class="details" id="numMembers"></span></div>
-                <div class="fields"><span>Shirt size: </span><span class="details" id="shirtSize"></span></div>
-                <button onClick="confirmRegistration()" id="confirmbutton">Confirm</button>
+                <div onClick="makeAttendance(this.id)" id="0"></div>
+                <div onClick="makeAttendance(this.id)" id="1"></div>
+                <div onClick="makeAttendance(this.id)" id="2"></div>
+                <div onClick="makeAttendance(this.id)" id="3"></div>
             </div>
         </div>
 

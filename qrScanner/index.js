@@ -1,6 +1,7 @@
 
 let groupId;
 let member;
+let members;
 
 async function app() {
     let scanner = new Instascan.Scanner({ video: document.getElementById('webcam') });
@@ -18,12 +19,12 @@ async function app() {
         console.error(e);
     });
 }
-const FIELDS = ['cat', 'fname', 'lname', 'group', 'teamName', 'numMembers', 'shirtSize'];
+const FIELDS = ['group', 'teamName'];
 function fetchData(ids) {
+
     let idInfo = ids.split('-');
     groupId = idInfo[0];
-    member = idInfo[1];
-    fetch(`https://cache.imthebestcoder.ml/getUserData?id=${groupId}&member=${member}`)
+    fetch(`https://cache.imthebestcoder.ml/getTeamData?id=${groupId}`)
         .then(
             function (response) {
                 if (response.status !== 200) {
@@ -37,7 +38,8 @@ function fetchData(ids) {
                     console.log(data);
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('applicantInfo').style.display = "block";
-                    
+                    let teamInfo = data.seatInfo;
+                    members = data.seatInfo;
                     for (let field of FIELDS) {
                         if (data[field] === "" || !data[field]) {
 
@@ -47,6 +49,26 @@ function fetchData(ids) {
                         }
                         document.getElementById(field).innerText = data[field];
                     }
+
+                    for (let index in teamInfo) {
+                        let teammate = teamInfo[index];
+                        // console.log(index);
+                        let teamslot = document.getElementById(index);
+                        teamslot.innerHTML = `
+                            <div id="fields${index}" class="fields ${teammate.att ? "strikeout":""}">
+                                <span>Name: </span>
+                                <span class="details">
+                                    <span id="fname">${teammate.fname}</span>
+                                    <span id="lname">${teammate.lname}</span>
+                                </span>
+                                <span>Seat: </span>
+                                <span id="seatNo">${teammate.seatNo}</span>
+                            </div>
+                        `
+
+                    }
+
+                    //
                 });
             }
         )
@@ -56,8 +78,13 @@ function fetchData(ids) {
         });
 }
 
-function confirmRegistration() {
-    console.log(groupId,member);
+function makeAttendance(id) {
+    if (members[id].att === 0) {
+        confirmRegistration(groupId, id);
+    }
+}
+
+function confirmRegistration(groupId, member) {
     fetch(`https://cache.imthebestcoder.ml/submitUserAttendance?id=${groupId}&member=${member}`)
         .then(
             function (response) {
@@ -72,10 +99,11 @@ function confirmRegistration() {
                     console.log(data);
                     if (data && data.success) {
 
-                        document.getElementById('applicantInfo').style.display = "none";
+                        document.getElementById(`fields${member}`).className = "fields strikeout";
                         groupId = undefined;
                         member = undefined;
-                        alert('success!');
+                        members = undefined;
+                        // alert('success!');
                     } else {
                         alert('error: ' + data)
                     }
