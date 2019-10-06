@@ -11,6 +11,7 @@
     <meta property="og:image" content="https://imthebestcoder.ml/bestcoder.png">
     <meta property="og:url" content="https://imthebestcoder.ml/">
     <meta name="twitter:card" content="summary_large_image">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript" src="node_modules/qrcode/build/qrcode.min.js"></script>
     <script src="index.js"></script>
@@ -21,10 +22,17 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: aliceblue;
+            background: url("./section-background-03.png");
+            font-family: Roboto,sans-serif;
         }
         .qrGroup {
             position: relative;
+            background: #000;
+            border-radius: 50%;
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            z-index: 3;
         }
         #canvas {
             position: absolute;
@@ -62,17 +70,55 @@
             margin: 30px;
             font-size: 25px;
         }
+        #groupName {
+            color: white;
+            z-index: 3;
+        }
+        .hero {
+            position: absolute;
+            text-align: center;
+            background: rgba(17, 51, 102, 0.7) no-repeat 50% fixed;
+            background-blend-mode: overlay;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: 0;
+        }
+        .hero-animate {
+            position: absolute;
+            background: url('./hero-background-circle.png');
+            top: 0;
+            left: 50%;
+            width: 680px;
+            height: 680px;
+            margin-left: -340px;
+            max-width: 100%;
+            max-height: 100%;
+            -webkit-animation: rotate 30s linear infinite;
+            animation: rotate 30s linear infinite;
+            z-index: 1;
+        }
+
+        @-moz-keyframes rotate { 100% { -moz-transform: rotate(360deg); } }
+        @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes rotate { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
     </style>
 </head>
 
 <body onload="genQR()">
-    <div class="qrGroup" id="qrGroup">
-        <img class="bestcoderLogo" src="bestcoder2.png" alt="bestcoder logo" />
-        <canvas id="canvas"></canvas>
-    </div>
-    <div id="enterQR">
-        <input type="text" id="groupID" placeholder="Enter Group ID" />
-        <button onClick="enterID()">Submit</button>
+    <div class="hero">
+        <div class="hero-animate"></div>
+        <h1 id="groupName"></h1>
+        <div class="qrGroup" id="qrGroup">
+            <img class="bestcoderLogo" src="bestcoder2.png" alt="bestcoder logo" />
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="enterQR">
+            <input type="text" id="groupID" placeholder="Enter Group ID" />
+            <button onClick="enterID()">Submit</button>
+        </div>
     </div>
 </body>
 

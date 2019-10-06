@@ -12,18 +12,23 @@
         <meta property="og:url" content="https://regist.imthebestcoder.ml/">
         <meta name="twitter:card" content="summary_large_image">
         <script type="text/javascript" src="instascan.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
         <style>
             body {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                background-color: aliceblue;
-                font-size: 20px;
+                background: url("./section-background-03.png");
+                font-family: Roboto,sans-serif;
+                color: white;
             }
-
             #applicantInfo {
                 display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
             }
             #loading {
                 display: none;
@@ -48,12 +53,43 @@
             .strikeout {
                 text-decoration: line-through;
             }
+            .hero {
+                position: absolute;
+                text-align: center;
+                background: rgba(17, 51, 102, 0.7) no-repeat 50% fixed;
+                background-blend-mode: overlay;
+                background-size: cover;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                margin: 0;
+            }
+            .hero-animate {
+                position: absolute;
+                background: url('./hero-background-circle.png');
+                top: 0;
+                left: 50%;
+                width: 680px;
+                height: 680px;
+                margin-left: -340px;
+                max-width: 100%;
+                max-height: 100%;
+                -webkit-animation: rotate 30s linear infinite;
+                animation: rotate 30s linear infinite;
+                z-index: -1;
+            }
+
+            @-moz-keyframes rotate { 100% { -moz-transform: rotate(360deg); } }
+            @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg); } }
+            @keyframes rotate { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
         </style>
     </head>
 
     <body>
 
-        <div class="center">
+        <div class="center hero">
+            <div class="hero-animate"></div>
             <h1>Registration</h1>
             <video id="webcam"></video>
             <div id="loading">loading...</div>

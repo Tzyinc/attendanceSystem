@@ -37,7 +37,7 @@ function fetchData(ids) {
                 response.json().then(function (data) {
                     console.log(data);
                     document.getElementById('loading').style.display = 'none';
-                    document.getElementById('applicantInfo').style.display = "block";
+                    document.getElementById('applicantInfo').style.display = "flex";
                     let teamInfo = data.seatInfo;
                     members = data.seatInfo;
                     for (let field of FIELDS) {

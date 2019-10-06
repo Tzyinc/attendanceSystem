@@ -38,6 +38,7 @@ function checkGroupExists(groupid) {
                 response.json().then(function (data) {
                     console.log(data);
                     if (data && data.success ) {
+                        document.getElementById('groupName').textContent = data.teamName;
                         document.getElementById('qrGroup').style.display = "block";
                         document.getElementById('enterQR').style.display = "none";
                         QRCode.toCanvas(document.getElementById('canvas'), groupid, function (error) {
