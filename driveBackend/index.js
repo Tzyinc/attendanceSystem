@@ -26,6 +26,7 @@ const credentials = {
 const SHEET_ID = process.env.SHEET_ID;
 const COLUMNS = process.env.COLUMNS;
 const ATT_COLUMNS = process.env.ATT_COLUMNS;
+const MAX_MEMBERS = 4;
 
 let ssCache = [[]];
 let attCache = [[]]
@@ -33,7 +34,7 @@ let attCache = [[]]
 readSpreadSheet(SHEET_ID, COLUMNS, ATT_COLUMNS);
 setInterval(function () {
     readSpreadSheet(SHEET_ID, COLUMNS, ATT_COLUMNS);
-}, 60 * 1000); 
+}, 10 * 1000); 
 
 function getOAuth2Client() {
     const token = require(TOKEN_PATH);
@@ -92,7 +93,28 @@ function readSpreadSheet(spreadsheetId, spreadSheetRange, attendanceSpreadSheetR
                 attCache = res2.data.values
             } else {
                 //write to googlesheet with col;
-                const toWrite = ssCache.map(item => [item[0]]);
+                const toWrite = ssCache.map((item, index) => {
+                    const id = item[0];
+                    let teamSize = 0;
+                    let seatInfo = [];
+                    for (let i = 0; i < MAX_MEMBERS; i++) {
+                        if (index === 0) {
+                            teamSize = 'Calc. Team Size'
+                            seatInfo.push(`Member${i + 1}`)
+                            seatInfo.push(`Seat No.`)
+                        } else {
+                            const fname = getValueGivenRowCol(id, 'First name', i);
+                            const lname = getValueGivenRowCol(id, 'Last name', i);
+                            const seatNo = getValueGivenRowCol(id, 'Seat No.', i);
+                            if (fname && lname) {
+                                teamSize++;
+                                seatInfo.push(`${fname} ${lname}`);
+                                seatInfo.push(`${seatNo}`);
+                            }
+                        }
+                    }
+                    return [id, item[2], teamSize, ...seatInfo];
+                });
                 (async () => {
                     const result = await updateSpreadSheet(spreadsheetId, attendanceSpreadSheetRange, {values: toWrite});
                 })()
@@ -125,7 +147,7 @@ function updateSpreadSheet(spreadsheetId, spreadSheetRange, body) {
 }
 
 async function updateAttendance(id, member) {
-    const memberCols = ['B', 'C', 'D', 'E'];
+    const memberCols = ['L', 'M', 'N', 'O'];
     const rowIndex = attCache.findIndex(item => item[0] === id) + 1;
     if (rowIndex > 0) {
         await updateSpreadSheet(SHEET_ID, `attendance!${memberCols[member]}${rowIndex}`, {values: [[1]]});
