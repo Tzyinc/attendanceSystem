@@ -30,7 +30,6 @@ const MAX_MEMBERS = 4;
 
 let ssCache = [[]];
 let attCache = [[]]
-
 readSpreadSheet(SHEET_ID, COLUMNS, ATT_COLUMNS);
 setInterval(function () {
     readSpreadSheet(SHEET_ID, COLUMNS, ATT_COLUMNS);
@@ -53,7 +52,13 @@ function getValueGivenRowCol(row, col, instanceOfCol = 0) {
     let headers = ssCache[0];
     let indexes = getAllIndexes(headers, col);
     let team = ssCache.find(arr => arr[0] === row);
-    return team[indexes[instanceOfCol]];
+    return team && team[indexes[instanceOfCol]];
+}
+
+function getAttendance(teamId, memberPos) {
+    const attCols = [11,12,13,14];
+    let att = attCache.find(item => item[0] === teamId);
+    return (att && att[attCols[memberPos]]) || 0;
 }
 
 function getAllIndexes(arr, val) {
@@ -157,22 +162,45 @@ async function updateAttendance(id, member) {
 }
 
 function getDetails(id, member) {
-    const fname = getValueGivenRowCol(id, 'First name', member);
-    const lname = getValueGivenRowCol(id, 'Last name', member);
-    const shirtSize = getValueGivenRowCol(id, 'Shirt size', member);
-    const teamName = getValueGivenRowCol(id, 'Team name');
-    const numMembers = getValueGivenRowCol(id, 'No. of team members');
-    const cat = getValueGivenRowCol(id, 'Competition category');
-    
-    return {
-        group: id,
-        fname,
-        lname,
-        shirtSize,
-        teamName,
-        numMembers,
-        cat
-    };
+    if (member) {
+        const fname = getValueGivenRowCol(id, 'First name', member);
+        const lname = getValueGivenRowCol(id, 'Last name', member);
+        const shirtSize = getValueGivenRowCol(id, 'Shirt size', member);
+        const teamName = getValueGivenRowCol(id, 'Team name');
+        const numMembers = getValueGivenRowCol(id, 'No. of team members');
+        const cat = getValueGivenRowCol(id, 'Competition category');
+        return {
+            group: id,
+            fname,
+            lname,
+            shirtSize,
+            teamName,
+            numMembers,
+            cat
+        };
+    } else {
+        let seatInfo = [];
+        const teamName = getValueGivenRowCol(id, 'Team name');
+        for (let index = 0; index < MAX_MEMBERS; index++) {
+            const fname = getValueGivenRowCol(id, 'First name', index);
+            const lname = getValueGivenRowCol(id, 'Last name', index);
+            const seatNo = getValueGivenRowCol(id, 'Seat No.', index);
+            const att = getAttendance(id, index);
+            if (fname && lname) {
+                seatInfo.push({
+                    fname,
+                    lname,
+                    seatNo,
+                    att
+                });
+            }
+        }
+        return {
+            group: id,
+            teamName,
+            seatInfo,
+        };
+    }
 }
 
 app.get('/', cors(), function (req, res) {
@@ -227,6 +255,18 @@ app.get('/getUserData', cors(), function(req, res) {
     const member = query.member;
     let details = getDetails(id, member);
     res.send(details);
+});
+
+
+app.get('/getTeamData', cors(), function (req, res) {
+    const query = req.query;
+    const id = query.id;
+    let details = getDetails(id);
+    if (details.teamName) {
+        res.send(details);
+    } else {
+        res.send({err: 'team doesnt exist'})
+    }
 });
 
 var server = app.listen(8081, function () {
