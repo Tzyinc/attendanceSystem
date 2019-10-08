@@ -41,14 +41,15 @@
                 border: 2px solid #1976D2;
                 background-color: #BBDEFB;
                 color: #1976D2;
-                margin-top: 30px;
+                /* margin-top: 30px; */
                 font-size: 25px;
-                width: 100%;
+                /* width: 100%; */
             }
             .fields {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+                align-items: center;
             }
             .strikeout {
                 text-decoration: line-through;
@@ -79,7 +80,9 @@
                 animation: rotate 30s linear infinite;
                 z-index: -1;
             }
-
+            .clickable {
+                cursor: pointer;
+            }
             @-moz-keyframes rotate { 100% { -moz-transform: rotate(360deg); } }
             @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg); } }
             @keyframes rotate { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
@@ -95,8 +98,9 @@
             <div id="loading">loading...</div>
             <div id="applicantInfo">
                 
-                <div class="fields"><span>Submission Id: </span><span class="details" id="group"></span></div>
-                <div class="fields"><span>Group name: </span><span class="details" id="teamName"></span></div>
+                <div class="fields"><span>Submission ID:&nbsp</span><span class="details" id="group"></span></div>
+                <div class="fields"><span>Group Name:&nbsp</span><span class="details" id="teamName"></span></div>
+                <div class="fields"><span>Category:&nbsp</span><span class="details" id="cat"></span></div>
                 <div onClick="makeAttendance(this.id)" id="0"></div>
                 <div onClick="makeAttendance(this.id)" id="1"></div>
                 <div onClick="makeAttendance(this.id)" id="2"></div>

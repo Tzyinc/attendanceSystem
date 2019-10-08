@@ -19,7 +19,7 @@ async function app() {
         console.error(e);
     });
 }
-const FIELDS = ['group', 'teamName'];
+const FIELDS = ['group', 'teamName', 'cat'];
 function fetchData(ids) {
 
     let idInfo = ids.split('-');
@@ -55,20 +55,25 @@ function fetchData(ids) {
                         // console.log(index);
                         let teamslot = document.getElementById(index);
                         teamslot.innerHTML = `
-                            <div id="fields${index}" class="fields ${teammate.att ? "strikeout":""}">
-                                <span>Name: </span>
-                                <span class="details">
-                                    <span id="fname">${teammate.fname}</span>
-                                    <span id="lname">${teammate.lname}</span>
+                            <div class="fields">
+                                <span id="fields${index}" class="${teammate.att ? "strikeout" : ""}">
+                                    <span>Name:&nbsp</span>
+                                    <span class="details clickable">
+                                        <span id="fname">${teammate.fname}</span>
+                                        <span id="lname">${teammate.lname}</span>
+                                        &nbsp
+                                    </span>
+                                    <span>(Seat:&nbsp</span>
+                                    <span id="seatNo">${teammate.seatNo})</span>
                                 </span>
-                                <span>Seat: </span>
-                                <span id="seatNo">${teammate.seatNo}</span>
+                               &nbsp&nbsp
+                                <button>
+                                    Confirm
+                                </button>
                             </div>
                         `
 
                     }
-
-                    //
                 });
             }
         )
@@ -79,6 +84,7 @@ function fetchData(ids) {
 }
 
 function makeAttendance(id) {
+    console.log(members, id);
     if (members[id].att === 0) {
         confirmRegistration(groupId, id);
     }
@@ -100,9 +106,6 @@ function confirmRegistration(groupId, member) {
                     if (data && data.success) {
 
                         document.getElementById(`fields${member}`).className = "fields strikeout";
-                        groupId = undefined;
-                        member = undefined;
-                        members = undefined;
                         // alert('success!');
                     } else {
                         alert('error: ' + data)
