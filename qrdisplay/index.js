@@ -41,7 +41,11 @@ function checkGroupExists(groupid) {
                         document.getElementById('groupName').textContent = data.teamName;
                         document.getElementById('qrGroup').style.display = "block";
                         document.getElementById('enterQR').style.display = "none";
-                        QRCode.toCanvas(document.getElementById('canvas'), groupid, { width: window.innerWidth/4}, function (error) {
+                        let width = Math.min((window.innerWidth / 4), 125);
+                        console.log(width)
+                        let canvas = document.getElementById('canvas');
+                        canvas.style.marginTop = `${Math.min((window.innerWidth * 0.15), 500 * 0.15)}px`;
+                        QRCode.toCanvas(canvas, groupid, { width: width}, function (error) {
                             if (error) console.error(error)
                         });
                     } else {
