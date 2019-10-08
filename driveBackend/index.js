@@ -181,6 +181,7 @@ function getDetails(id, member) {
     } else {
         let seatInfo = [];
         const teamName = getValueGivenRowCol(id, 'Team name');
+        const cat = getValueGivenRowCol(id, 'Competition category');
         for (let index = 0; index < MAX_MEMBERS; index++) {
             const fname = getValueGivenRowCol(id, 'First name', index);
             const lname = getValueGivenRowCol(id, 'Last name', index);
@@ -197,6 +198,7 @@ function getDetails(id, member) {
         }
         return {
             group: id,
+            cat,
             teamName,
             seatInfo,
         };
